@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Who Is... | 게이머 성향 분석 서비스</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Pretendard -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="Style.css">
+</head>
+
+<body class="main">
+
+    <!-- Header / Logo -->
+    <header class="top">
+
+        <div>
+            <h1 class="top-text">
+                Who Is...
+            </h1>
+
+        </div>
+
+    </header>
+
+
+    <!-- Search Box -->
+    <!-- 전체 박스에 배경 이미지를 적용하는 구조 -->
+    <section class="search-box">
+
+        <!-- 배경 이미지 위 어두운 오버레이 -->
+        <div class="search-overlay"></div>
+
+        <!-- 검색 내용 -->
+        <div class="search-content">
+
+            <label class="search-label">
+                소환사 이름 검색 (Riot ID)
+            </label>
+
+            <div class="search-area">
+
+                <input type="text" id="summonerInput" value="" placeholder="소환자명#태그 (예: Hide on bush#KR1)"
+                    class="search-input">
+
+                <button onclick="searchPersona()" class="search-button">
+                    성향 분석
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Result Dashboard -->
+    <main id="resultDashboard" class="dashboard hidden">
+
+        <!-- 선택 탭 -->
+        <div class="result-tabs">
+            <button class="result-tab active" onclick="showTab(0)">
+                종합
+            </button>
+
+            <button class="result-tab" onclick="showTab(1)">
+                탭 2
+            </button>
+
+            <button class="result-tab" onclick="showTab(2)">
+                탭 3
+            </button>
+        </div>
+
+
+        <!-- ========================================
+         탭 1 : 검색 결과
+    ======================================== -->
+
+        <div id="tabContent0" class="tab-content active">
+
+            <!-- Main Persona Card -->
+            <div class="card">
+
+                <div class="result">
+
+                    <div>
+
+                        <span class="analysis">
+                            Analysis Result
+                        </span>
+
+                        <div class="user-profile">
+                            <img id="userIcon" class="user-icon" src="" alt="유저 아이콘">
+
+                            <div class="user-info">
+                                <h2 id="userName" class="name">유저명</h2>
+
+                                <!-- 티어 표시 영역 -->
+                                <div class="user-tier" id="userTierArea"
+                                    style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
+                                    <img id="tierIcon" class="tier-icon" src="" alt=""
+                                        style="width: 28px; height: 28px; display: none;">
+                                    <span id="userRank" class="rank-text">티어 정보 없음</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="answer">
+
+                        <span class="game">
+                            최근 10게임 기반
+                        </span>
+
+                        <p class="rate" id="kdaValue">
+                            KDA -
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Persona Highlight -->
+
+                <div class="highlight">
+
+                    <span class="persona">
+                        THE PERSONA
+                    </span>
+
+                    <p id="personaTitle" class="title">
+                        "후반 한타형 왕귀 플레이어"
+                    </p>
+
+                </div>
+
+
+                <!-- Positive Tags -->
+
+                <div class="tags">
+
+                    <span class="tag1">
+                        전략적 오더형
+                    </span>
+
+                    <span class="tag2">
+                        시야 확보 상위 1%
+                    </span>
+
+                    <span class="tag3">
+                        멘탈 수호자
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- ========================================
+             상세 지표
+        ======================================== -->
+
+            <div class="detail">
+
+                <div class="details1">
+
+                    <span class="detail1-1">
+                        라인전 CS 수급
+                    </span>
+
+                    <p class="detail1-2">
+                        9.5
+
+                        <span class="detail1-2_1">
+                            CS/min
+                        </span>
+                    </p>
+
+                    <p class="detail1-3">
+                        상위 5%의 안정적인 성장 능력
+                    </p>
+
+                </div>
+
+
+                <div class="details2">
+
+                    <span class="details2-1">
+                        한타 참여율
+                    </span>
+
+                    <p class="details2-2">
+                        85%
+                    </p>
+
+                    <p class="details2-3">
+                        주요 교전 참여도 매우 높음
+                    </p>
+
+                </div>
+
+
+                <div class="details3">
+
+                    <span class="details3-1">
+                        주요 오브젝트 제어
+                    </span>
+
+                    <p class="details3-2">
+                        90%
+                    </p>
+
+                    <p class="details3-3">
+                        드래곤/바론 타임 시야 합류 우수
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================================
+         탭 2
+    ======================================== -->
+
+        <div id="tabContent1" class="tab-content">
+            탭 2 내용
+        </div>
+
+
+        <!-- ========================================
+         탭 3
+    ======================================== -->
+
+        <div id="tabContent2" class="tab-content">
+            탭 3 내용
+        </div>
+
+    </main>
+
+
+    <script>
+        let playerData = null;
+
+        /*
+         * 텍스트 파일(JSON)에 있는 모든 경기의 모든 참가자를
+         * 자동으로 검색할 수 있도록 유저별 전적을 만듭니다.
+         */
+        const playerStats = new Map();
+
+
+        // 텍스트 파일 불러오기
+        async function loadPlayerData() {
+
+            try {
+
+                const response =
+                    await fetch('./붙여넣은 텍스트 (1).txt');
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                playerData = await response.json();
+
+                // 모든 유저의 전적 자동 생성
+                buildPlayerStats(playerData.matches);
+
+                console.log(
+                    '플레이어 데이터 로드 완료:',
+                    playerStats
+                );
+
+                return playerData;
+
+            } catch (error) {
+                console.error(error);
+                alert(error.message || '오류가 발생했습니다.');
+                dashboard.classList.add('hidden');
+            } finally {
+                if (button) {
+                    button.disabled = false;
+                    button.textContent = '성향 분석';
+                }
+            }
+        }
+
+
+        /*
+         * matches 전체를 순회하면서
+         *
+         * 유저명 → KDA 통계
+         *
+         * 형태의 데이터를 만듭니다.
+         */
+        function buildPlayerStats(matches) {
+
+            playerStats.clear();
+
+            for (const match of matches || []) {
+
+                for (const player of match.participants || []) {
+
+                    const name =
+                        (player.summonerName || '').trim();
+
+                    if (!name) continue;
+
+                    const key = name.toLowerCase();
+
+                    // 처음 등장한 유저
+                    if (!playerStats.has(key)) {
+
+                        playerStats.set(key, {
+                            name: name,
+                            kills: 0,
+                            deaths: 0,
+                            assists: 0,
+                            games: 0,
+                            wins: 0,
+                            losses: 0
+                        });
+                    }
+
+                    const stats = playerStats.get(key);
+
+                    stats.kills += Number(player.kills) || 0;
+                    stats.deaths += Number(player.deaths) || 0;
+                    stats.assists += Number(player.assists) || 0;
+
+                    stats.games++;
+
+                    if (player.win === true) {
+                        stats.wins++;
+                    } else {
+                        stats.losses++;
+                    }
+                }
+            }
+        }
+
+
+        /*
+         * 유저명을 검색합니다.
+         *
+         * 예:
+         * Niviel
+         * Niviel#White
+         * kanavi
+         *
+         * 모두 이름 부분을 기준으로 검색합니다.
+         */
+        function findPlayer(searchText) {
+
+            // #태그가 있으면 제거
+            const nameOnly =
+                searchText
+                    .split('#')[0]
+                    .trim()
+                    .toLowerCase();
+
+            if (!nameOnly) {
+                return null;
+            }
+
+            // 완전 일치 검색
+            if (playerStats.has(nameOnly)) {
+                return playerStats.get(nameOnly);
+            }
+
+            return null;
+        }
+
+
+        async function searchPersona() {
+            const input = document.getElementById('summonerInput').value.trim();
+            const dashboard = document.getElementById('resultDashboard');
+            const userName = document.getElementById('userName');
+            const button = document.querySelector('.search-button');  // 클래스명 주의
+
+            if (!input) {
+                alert('Riot ID를 입력해 주세요. 예: Hide on bush#KR1');
+                return;
+            }
+
+            if (button) {
+                button.disabled = true;
+                button.textContent = '검색 중...';
+            }
+
+            try {
+                const response = await fetch(
+                    `/api/player?riotId=${encodeURIComponent(input)}`
+                );
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        data.message || '플레이어 정보를 가져오지 못했습니다.'
+                    );
+                }
+
+                // 이름 표시
+                userName.innerText = data.riotId;
+
+                // 프로필 아이콘
+                const userIcon = document.getElementById('userIcon');
+                userIcon.src = `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/profile-icons/${data.profileIconId}.jpg`;
+                userIcon.alt = `${data.gameName} 프로필 아이콘`;
+
+                // 레벨 표시
+                const kdaValue = document.getElementById('kdaValue');
+                if (kdaValue) {
+                    kdaValue.innerText = `Lv. ${data.summonerLevel}`;
+                }
+
+                // 랭크 정보 (영역이 있을 경우)
+                // 랭크 정보 표시
+                const solo = data.ranks.find(
+                    rank => rank.queueType === 'RANKED_SOLO_5x5'
+                );
+
+                const userRank = document.getElementById('userRank');
+                const tierIcon = document.getElementById('tierIcon');
+
+                if (solo) {
+                    // 텍스트 표시 (예: GOLD II · 45 LP)
+                    userRank.innerText = `${solo.tier} ${solo.rank} · ${solo.leaguePoints} LP`;
+
+                    // 티어 아이콘 표시
+                    if (tierIcon) {
+                        const tier = solo.tier.toLowerCase(); // gold, platinum, emerald 등
+                        tierIcon.src = `https://opgg-static.akamaized.net/images/medals_new/${tier}.png`;
+                        tierIcon.style.display = 'inline-block';
+                        tierIcon.alt = `${solo.tier} 아이콘`;
+                    }
+                } else {
+                    userRank.innerText = '언랭크 / 솔로랭크 정보 없음';
+                    if (tierIcon) {
+                        tierIcon.style.display = 'none';
+                    }
+                }
+
+                // 결과 화면 보여주기
+                dashboard.classList.remove('hidden');
+
+                console.log('Riot API 플레이어 정보:', data);
+                console.log('profileIconId:', data.profileIconId);
+
+            } catch (error) {
+                console.error(error);
+                alert(error.message || '오류가 발생했습니다.');
+                dashboard.classList.add('hidden');
+            } finally {
+                if (button) {
+                    button.disabled = false;
+                    button.textContent = '성향 분석';
+                }
+            }
+        }
+
+        // ========================================
+        // 검색창을 상단 Who Is... 옆으로 이동
+        // ========================================
+
+        const header = document.querySelector('.top');
+        const searchBox = document.querySelector('.search-box');
+
+        header.appendChild(searchBox);
+
+        header.classList.add('search-complete');
+        searchBox.classList.add('compact');
+
+
+        // 3개 탭 전환
+        function showTab(index) {
+
+            document.querySelectorAll('.result-tab')
+                .forEach((tab, i) => {
+                    tab.classList.toggle('active', i === index);
+                });
+
+            document.querySelectorAll('.tab-content')
+                .forEach((content, i) => {
+                    content.classList.toggle('active', i === index);
+                });
+        }
+
+
+        // Enter 키로 검색
+        document
+            .getElementById('summonerInput')
+            .addEventListener(
+                'keydown',
+                function (event) {
+
+                    if (event.key === 'Enter') {
+                        searchPersona();
+                    }
+
+                }
+            );
+
+    </script>
+
+</body>
+
+</html>
