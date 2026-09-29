@@ -4,393 +4,521 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Who Is... | 게이머 성향 분석 서비스</title>
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Pretendard -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
-
-    <!-- CSS -->
     <link rel="stylesheet" href="Style.css">
 </head>
 
 <body class="main">
-
-    <!-- Header / Logo -->
     <header class="top">
-
         <div>
-            <h1 class="top-text">
-                Who Is...
-            </h1>
-
+            <h1 class="top-text">Who Is...</h1>
         </div>
-
     </header>
 
-
-    <!-- Search Box -->
-    <!-- 전체 박스에 배경 이미지를 적용하는 구조 -->
     <section class="search-box">
-
-        <!-- 배경 이미지 위 어두운 오버레이 -->
         <div class="search-overlay"></div>
-
-        <!-- 검색 내용 -->
         <div class="search-content">
-
-            <label class="search-label">
-                소환사 이름 검색 (Riot ID)
-            </label>
-
+            <label class="search-label">소환사 이름 검색 (Riot ID)</label>
             <div class="search-area">
-
-                <input type="text" id="summonerInput" value="" placeholder="소환자명#태그 (예: Hide on bush#KR1)"
-                    class="search-input">
-
-                <button onclick="searchPersona()" class="search-button">
-                    성향 분석
-                </button>
-
+                <input
+                    type="text"
+                    id="summonerInput"
+                    value=""
+                    placeholder="소환자명#태그 (예: Hide on bush#KR1)"
+                    class="search-input"
+                >
+                <button onclick="searchPersona()" class="search-button">성향 분석</button>
             </div>
-
         </div>
-
     </section>
 
-
-    <!-- Result Dashboard -->
     <main id="resultDashboard" class="dashboard hidden">
-
-        <!-- 선택 탭 -->
         <div class="result-tabs">
-            <button class="result-tab active" onclick="showTab(0)">
-                종합
-            </button>
-
-            <button class="result-tab" onclick="showTab(1)">
-                탭 2
-            </button>
-
-            <button class="result-tab" onclick="showTab(2)">
-                탭 3
-            </button>
+            <button class="result-tab active" onclick="showTab(0)">종합</button>
+            <button class="result-tab" onclick="showTab(1)">최근 전적</button>
+            <button class="result-tab" onclick="showTab(2)">팀 분석</button>
         </div>
 
-
-        <!-- ========================================
-         탭 1 : 검색 결과
-    ======================================== -->
-
+        <!-- 종합 -->
         <div id="tabContent0" class="tab-content active">
-
-            <!-- Main Persona Card -->
             <div class="card">
-
                 <div class="result">
-
                     <div>
-
-                        <span class="analysis">
-                            Analysis Result
-                        </span>
-
+                        <span class="analysis">PLAYER INFO</span>
                         <div class="user-profile">
                             <img id="userIcon" class="user-icon" src="" alt="유저 아이콘">
-
                             <div class="user-info">
                                 <h2 id="userName" class="name">유저명</h2>
-
-                                <!-- 티어 표시 영역 -->
-                                <div class="user-tier" id="userTierArea"
-                                    style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
-                                    <img id="tierIcon" class="tier-icon" src="" alt=""
-                                        style="width: 28px; height: 28px; display: none;">
+                                <div class="user-tier" id="userTierArea">
+                                    <img id="tierIcon" class="tier-icon" src="" alt="" style="display:none;">
                                     <span id="userRank" class="rank-text">티어 정보 없음</span>
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
-
                     <div class="answer">
-
-                        <span class="game">
-                            최근 10게임 기반
-                        </span>
-
-                        <p class="rate" id="kdaValue">
-                            KDA -
-                        </p>
-
+                        <span class="game" id="matchCountLabel">최근 10게임 기준</span>
+                        <p class="rate" id="kdaValue">KDA -</p>
                     </div>
-
                 </div>
-
-
-                <!-- Persona Highlight -->
 
                 <div class="highlight">
-
-                    <span class="persona">
-                        THE PERSONA
-                    </span>
-
-                    <p id="personaTitle" class="title">
-                        "후반 한타형 왕귀 플레이어"
-                    </p>
-
+                    <span class="persona">THE PERSONA</span>
+                    <p id="personaTitle" class="title">최근 전적을 분석하고 있습니다.</p>
                 </div>
-
-
-                <!-- Positive Tags -->
 
                 <div class="tags">
-
-                    <span class="tag1">
-                        전략적 오더형
-                    </span>
-
-                    <span class="tag2">
-                        시야 확보 상위 1%
-                    </span>
-
-                    <span class="tag3">
-                        멘탈 수호자
-                    </span>
-
+                    <span class="tag1" id="overviewWinRate">승률 -</span>
+                    <span class="tag2" id="overviewAvgCs">평균 CS -</span>
+                    <span class="tag3" id="overviewGames">게임 수 -</span>
                 </div>
-
             </div>
-
-
-            <!-- ========================================
-             상세 지표
-        ======================================== -->
 
             <div class="detail">
-
                 <div class="details1">
-
-                    <span class="detail1-1">
-                        라인전 CS 수급
-                    </span>
-
-                    <p class="detail1-2">
-                        9.5
-
-                        <span class="detail1-2_1">
-                            CS/min
-                        </span>
-                    </p>
-
-                    <p class="detail1-3">
-                        상위 5%의 안정적인 성장 능력
-                    </p>
-
+                    <span class="detail1-1">평균 KDA</span>
+                    <p class="detail1-2" id="avgKda">-</p>
+                    <p class="detail1-3">최근 게임 기준 평균</p>
                 </div>
-
-
                 <div class="details2">
-
-                    <span class="details2-1">
-                        한타 참여율
-                    </span>
-
-                    <p class="details2-2">
-                        85%
-                    </p>
-
-                    <p class="details2-3">
-                        주요 교전 참여도 매우 높음
-                    </p>
-
+                    <span class="details2-1">승률</span>
+                    <p class="details2-2" id="winRate">-</p>
+                    <p class="details2-3" id="winLossText">-</p>
                 </div>
-
-
                 <div class="details3">
-
-                    <span class="details3-1">
-                        주요 오브젝트 제어
-                    </span>
-
-                    <p class="details3-2">
-                        90%
-                    </p>
-
-                    <p class="details3-3">
-                        드래곤/바론 타임 시야 합류 우수
-                    </p>
-
+                    <span class="details3-1">평균 CS/min</span>
+                    <p class="details3-2" id="avgCsPerMin">-</p>
+                    <p class="details3-3">최근 게임 기준</p>
                 </div>
+            </div>
+        </div>
 
+        <!-- 최근 전적 -->
+        <div id="tabContent1" class="tab-content">
+            <div class="section-header">
+                <div>
+                    <span class="analysis">MATCH HISTORY</span>
+                    <h3>최근 전적</h3>
+                </div>
+                <span class="section-subtitle">최근 10게임</span>
+            </div>
+            <div id="matchList" class="match-list">
+                <div class="empty-state">플레이어를 검색하면 최근 전적이 표시됩니다.</div>
+            </div>
+        </div>
+
+        <!-- 팀 분석 -->
+        <div id="tabContent2" class="tab-content team-analysis-tab">
+            <div class="section-header">
+                <div>
+                    <span class="analysis">TEAM ANALYSIS</span>
+                    <h3>팀 분석</h3>
+                </div>
+                <span class="section-subtitle">종료된 경기 복기</span>
             </div>
 
+            <div class="team-notice">
+                선택한 <strong>종료 경기</strong>의 데이터를 바탕으로 5대5 플레이 성향과 팀 프로필을 분석합니다.
+            </div>
+
+            <div class="team-selector-panel">
+                <div>
+                    <span class="selector-label">분석할 경기 선택</span>
+                    <select id="teamMatchSelect" class="team-match-select" onchange="loadTeamAnalysis()">
+                        <option value="">최근 경기에서 선택</option>
+                    </select>
+                </div>
+                <div id="teamMatchMeta" class="team-match-meta">경기를 선택하면 팀 분석을 시작합니다.</div>
+            </div>
+
+            <div id="teamAnalysisContent" class="team-analysis-content">
+                <div class="empty-state">검색 후 위에서 최근 경기를 선택해 주세요.</div>
+            </div>
         </div>
-
-
-        <!-- ========================================
-         탭 2
-    ======================================== -->
-
-        <div id="tabContent1" class="tab-content">
-            탭 2 내용
-        </div>
-
-
-        <!-- ========================================
-         탭 3
-    ======================================== -->
-
-        <div id="tabContent2" class="tab-content">
-            탭 3 내용
-        </div>
-
     </main>
 
-
     <script>
-        let playerData = null;
+        let currentPlayerData = null;
 
-        /*
-         * 텍스트 파일(JSON)에 있는 모든 경기의 모든 참가자를
-         * 자동으로 검색할 수 있도록 유저별 전적을 만듭니다.
-         */
-        const playerStats = new Map();
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
 
+        function formatDuration(seconds) {
+            const mins = Math.floor((seconds || 0) / 60);
+            const secs = Math.floor((seconds || 0) % 60);
+            return `${mins}:${String(secs).padStart(2, '0')}`;
+        }
 
-        // 텍스트 파일 불러오기
-        async function loadPlayerData() {
+        function formatDate(timestamp) {
+            if (!timestamp) return '-';
+            return new Date(timestamp).toLocaleString('ko-KR', {
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function calculateSummary(matches) {
+            if (!matches.length) {
+                return { games: 0, wins: 0, losses: 0, winRate: 0, kills: 0, deaths: 0, assists: 0, kda: 0, avgCs: 0, avgCsPerMin: 0 };
+            }
+
+            const totals = matches.reduce((acc, match) => {
+                acc.kills += Number(match.kills) || 0;
+                acc.deaths += Number(match.deaths) || 0;
+                acc.assists += Number(match.assists) || 0;
+                acc.cs += Number(match.totalCs) || 0;
+                acc.csPerMin += Number(match.csPerMinute) || 0;
+                acc.wins += match.win ? 1 : 0;
+                return acc;
+            }, { kills: 0, deaths: 0, assists: 0, cs: 0, csPerMin: 0, wins: 0 });
+
+            const games = matches.length;
+            const losses = games - totals.wins;
+            const kda = (totals.kills + totals.assists) / Math.max(totals.deaths, 1);
+
+            return {
+                games,
+                wins: totals.wins,
+                losses,
+                winRate: (totals.wins / games) * 100,
+                kills: totals.kills,
+                deaths: totals.deaths,
+                assists: totals.assists,
+                kda,
+                avgCs: totals.cs / games,
+                avgCsPerMin: totals.csPerMin / games
+            };
+        }
+
+        function getChampionIcon(championId) {
+            return `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/${championId}.png`;
+        }
+
+        function renderOverview(data) {
+            const matches = data.matches || [];
+            const summary = calculateSummary(matches);
+            const solo = (data.ranks || []).find(rank => rank.queueType === 'RANKED_SOLO_5x5');
+
+            document.getElementById('userName').innerText = data.riotId;
+            document.getElementById('userIcon').src =
+                `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/profile-icons/${data.profileIconId}.jpg`;
+            document.getElementById('userIcon').alt = `${data.gameName} 프로필 아이콘`;
+
+            document.getElementById('matchCountLabel').innerText = `최근 ${summary.games}게임 기준`;
+            document.getElementById('kdaValue').innerText = summary.games ? `KDA ${summary.kda.toFixed(2)}` : 'KDA -';
+            document.getElementById('avgKda').innerText = summary.games ? summary.kda.toFixed(2) : '-';
+            document.getElementById('winRate').innerText = summary.games ? `${summary.winRate.toFixed(1)}%` : '-';
+            document.getElementById('winLossText').innerText = summary.games ? `${summary.wins}승 ${summary.losses}패` : '-';
+            document.getElementById('avgCsPerMin').innerText = summary.games ? summary.avgCsPerMin.toFixed(1) : '-';
+            document.getElementById('overviewWinRate').innerText = `승률 ${summary.games ? summary.winRate.toFixed(1) : '-'}%`;
+            document.getElementById('overviewAvgCs').innerText = `평균 CS ${summary.games ? summary.avgCs.toFixed(1) : '-'}`;
+            document.getElementById('overviewGames').innerText = `${summary.games}게임`;
+
+            const userRank = document.getElementById('userRank');
+            const tierIcon = document.getElementById('tierIcon');
+            if (solo) {
+                userRank.innerText = `${solo.tier} ${solo.rank} · ${solo.leaguePoints} LP · Lv.${data.summonerLevel}`;
+                tierIcon.src = `https://opgg-static.akamaized.net/images/medals_new/${solo.tier.toLowerCase()}.png`;
+                tierIcon.style.display = 'inline-block';
+                tierIcon.alt = `${solo.tier} 아이콘`;
+            } else {
+                userRank.innerText = `언랭크 · Lv.${data.summonerLevel}`;
+                tierIcon.style.display = 'none';
+            }
+
+            const title = document.getElementById('personaTitle');
+            if (!summary.games) title.innerText = '최근 전적을 찾을 수 없습니다.';
+            else if (summary.winRate >= 60) title.innerText = '최근 승률이 높은 안정적인 플레이어';
+            else if (summary.kda >= 3) title.innerText = '교전 기여도가 높은 플레이어';
+            else if (summary.avgCsPerMin >= 7) title.innerText = '성장과 CS 수급을 중시하는 플레이어';
+            else title.innerText = '최근 게임 흐름을 꾸준히 이어가는 플레이어';
+        }
+
+        function renderMatchHistory(matches) {
+            const matchList = document.getElementById('matchList');
+            matchList.innerHTML = '';
+
+            if (!matches.length) {
+                matchList.innerHTML = '<div class="empty-state">최근 전적 데이터가 없습니다.</div>';
+                return;
+            }
+
+            for (const match of matches) {
+                const resultClass = match.win ? 'win' : 'loss';
+                const resultText = match.win ? '승리' : '패배';
+                const championIcon = getChampionIcon(match.championId);
+                const kda = `${match.kills} / ${match.deaths} / ${match.assists}`;
+                const kdaRatio = ((match.kills + match.assists) / Math.max(match.deaths, 1)).toFixed(2);
+
+                const item = document.createElement('article');
+                item.className = `match-card ${resultClass}`;
+                item.innerHTML = `
+                    <div class="match-result">
+                        <strong>${resultText}</strong>
+                        <span>${escapeHtml(match.queueName)}</span>
+                    </div>
+                    <div class="champion-cell">
+                        <img src="${championIcon}" alt="${escapeHtml(match.championName)}" onerror="this.style.display='none'">
+                        <div>
+                            <strong>${escapeHtml(match.championName || '알 수 없음')}</strong>
+                            <span>${escapeHtml(match.teamPosition || '포지션 미상')}</span>
+                        </div>
+                    </div>
+                    <div class="kda-cell">
+                        <strong>${kda}</strong>
+                        <span>KDA ${kdaRatio}</span>
+                    </div>
+                    <div class="cs-cell">
+                        <strong>${match.totalCs} CS</strong>
+                        <span>${match.csPerMinute} CS/min</span>
+                    </div>
+                    <div class="match-meta">
+                        <strong>${formatDuration(match.gameDuration)}</strong>
+                        <span>${formatDate(match.gameCreation)}</span>
+                    </div>
+                `;
+                matchList.appendChild(item);
+            }
+        }
+
+        function renderStats(matches) {
+            const statsGrid = document.getElementById('statsGrid');
+            if (!statsGrid) return;
+            statsGrid.innerHTML = '';
+
+            if (!matches.length) {
+                statsGrid.innerHTML = '<div class="empty-state">통계 데이터가 없습니다.</div>';
+                return;
+            }
+
+            const summary = calculateSummary(matches);
+            const championMap = new Map();
+            const positionMap = new Map();
+
+            for (const match of matches) {
+                championMap.set(match.championName, (championMap.get(match.championName) || 0) + 1);
+                const pos = match.teamPosition || '미상';
+                positionMap.set(pos, (positionMap.get(pos) || 0) + 1);
+            }
+
+            const mostPlayedChampion = [...championMap.entries()].sort((a, b) => b[1] - a[1])[0];
+            const mostPlayedPosition = [...positionMap.entries()].sort((a, b) => b[1] - a[1])[0];
+
+            const cards = [
+                ['승률', `${summary.winRate.toFixed(1)}%`, `${summary.wins}승 ${summary.losses}패`],
+                ['KDA', summary.kda.toFixed(2), `${summary.kills} / ${summary.deaths} / ${summary.assists}`],
+                ['평균 CS', summary.avgCs.toFixed(1), `${summary.avgCsPerMin.toFixed(1)} CS/min`],
+                ['최다 플레이 챔피언', mostPlayedChampion?.[0] || '-', `${mostPlayedChampion?.[1] || 0}게임`],
+                ['주 포지션', mostPlayedPosition?.[0] || '-', `${mostPlayedPosition?.[1] || 0}게임`],
+                ['총 게임 수', `${summary.games}`, '최근 매치 기준']
+            ];
+
+            for (const [label, value, sub] of cards) {
+                const card = document.createElement('div');
+                card.className = 'stat-card';
+                card.innerHTML = `<span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong><small>${escapeHtml(sub)}</small>`;
+                statsGrid.appendChild(card);
+            }
+        }
+
+        function populateTeamMatchSelect(matches) {
+            const select = document.getElementById('teamMatchSelect');
+            if (!select) return;
+
+            select.innerHTML = '<option value="">최근 경기에서 선택</option>';
+            for (const match of matches || []) {
+                const option = document.createElement('option');
+                option.value = match.matchId;
+                option.textContent = `${match.win ? '승리' : '패배'} · ${match.championName} · ${formatDate(match.gameCreation)}`;
+                select.appendChild(option);
+            }
+        }
+
+        function renderPlayerRow(player, isMine) {
+            const kda = `${player.kills}/${player.deaths}/${player.assists}`;
+            const kdaRatio = ((player.kills + player.assists) / Math.max(player.deaths, 1)).toFixed(2);
+            return `
+                <div class="team-player-row ${isMine ? 'mine' : ''}">
+                    <img class="team-champion-icon" src="${getChampionIcon(player.championId)}" alt="${escapeHtml(player.championName)}" onerror="this.style.display='none'">
+                    <div class="team-player-main">
+                        <div class="team-player-name-line">
+                            <strong>${escapeHtml(player.gameName)}</strong>
+                            ${isMine ? '<span class="mine-badge">MY PLAYER</span>' : ''}
+                        </div>
+                        <span>${escapeHtml(player.teamPosition)} · ${escapeHtml(player.rankLabel || '언랭크')}</span>
+                    </div>
+                    <span class="team-title-badge">${escapeHtml(player.title)}</span>
+                    <div class="team-stat-block">
+                        <strong>${kda}</strong>
+                        <span>KDA ${kdaRatio}</span>
+                    </div>
+                    <div class="team-stat-block compact">
+                        <strong>${player.totalCs}</strong>
+                        <span>CS</span>
+                    </div>
+                    <div class="team-stat-block compact">
+                        <strong>${player.killParticipation}%</strong>
+                        <span>KP</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderTeamAnalysis(data) {
+            const root = document.getElementById('teamAnalysisContent');
+            const meta = document.getElementById('teamMatchMeta');
+            if (!root) return;
+
+            meta.innerHTML = `${escapeHtml(data.queueName)} · ${formatDate(data.gameCreation)} · ${formatDuration(data.gameDuration)}`;
+
+            const myProfile = data.myProfile;
+            const enemyProfile = data.enemyProfile;
+            const myPlayers = data.myTeam || [];
+            const enemyPlayers = data.enemyTeam || [];
+            const prediction = data.winEstimate || { available: false, myWinRate: 50, enemyWinRate: 50 };
+
+            root.innerHTML = `
+                <section class="win-prediction-card">
+                    <div class="prediction-header">
+                        <div>
+                            <span class="analysis">TEAM POWER ESTIMATE</span>
+                            <h4>경기 전 전력 추정</h4>
+                        </div>
+                        <span class="prediction-badge">랭크 기반</span>
+                    </div>
+
+                    <div class="prediction-score-row">
+                        <div class="prediction-team prediction-team-mine">
+                            <span>우리 팀</span>
+                            <strong>${prediction.myWinRate}%</strong>
+                            <small>예상 우세도</small>
+                        </div>
+
+                        <div class="prediction-center">
+                            <div class="prediction-bar">
+                                <div class="prediction-bar-my" style="width:${prediction.myWinRate}%;"></div>
+                            </div>
+                            <span>VS</span>
+                        </div>
+
+                        <div class="prediction-team prediction-team-enemy">
+                            <span>상대 팀</span>
+                            <strong>${prediction.enemyWinRate}%</strong>
+                            <small>예상 우세도</small>
+                        </div>
+                    </div>
+
+                    <div class="prediction-meta">
+                        <div><span>우리 평균 전력</span><strong>${prediction.myStrength?.avgScore ?? '-'} / 17</strong></div>
+                        <div><span>상대 평균 전력</span><strong>${prediction.enemyStrength?.avgScore ?? '-'} / 17</strong></div>
+                        <div><span>랭크 확인</span><strong>${prediction.myStrength?.rankedPlayers ?? 0} vs ${prediction.enemyStrength?.rankedPlayers ?? 0}</strong></div>
+                    </div>
+
+                    <p class="prediction-note">${escapeHtml(prediction.note || '랭크 기반 전력 추정치입니다.')}</p>
+                </section>
+
+                <div class="team-columns">
+                    <section class="team-panel my-team-panel">
+                        <div class="team-panel-header">
+                            <div>
+                                <span class="analysis">MY TEAM</span>
+                                <h4>우리 팀</h4>
+                            </div>
+                            <span class="team-profile-chip">${escapeHtml(myProfile.profile)}</span>
+                        </div>
+                        <div class="team-summary-row">
+                            <div><span>평균 CS/min</span><strong>${myProfile.avgCsPerMin}</strong></div>
+                            <div><span>평균 KP</span><strong>${myProfile.avgKillParticipation}%</strong></div>
+                            <div><span>평균 데스</span><strong>${myProfile.avgDeaths}</strong></div>
+                        </div>
+                        <div class="team-player-list">
+                            ${myPlayers.map(p => renderPlayerRow(p, p.puuid === currentPlayerData?.puuid)).join('')}
+                        </div>
+                    </section>
+
+                    <section class="team-panel enemy-team-panel">
+                        <div class="team-panel-header">
+                            <div>
+                                <span class="analysis">OPPONENT TEAM</span>
+                                <h4>상대 팀</h4>
+                            </div>
+                            <span class="team-profile-chip enemy-chip">${escapeHtml(enemyProfile.profile)}</span>
+                        </div>
+                        <div class="team-summary-row">
+                            <div><span>평균 CS/min</span><strong>${enemyProfile.avgCsPerMin}</strong></div>
+                            <div><span>평균 KP</span><strong>${enemyProfile.avgKillParticipation}%</strong></div>
+                            <div><span>평균 데스</span><strong>${enemyProfile.avgDeaths}</strong></div>
+                        </div>
+                        <div class="team-player-list">
+                            ${enemyPlayers.map(p => renderPlayerRow(p, false)).join('')}
+                        </div>
+                    </section>
+                </div>
+
+                <section class="team-tip-card">
+                    <div class="team-tip-heading">
+                        <span>💡 TEAM TIP</span>
+                        <small>선택 경기 복기</small>
+                    </div>
+                    <div class="tip-list">
+                        ${(data.tips || []).map(tip => `<p>${escapeHtml(tip)}</p>`).join('')}
+                    </div>
+                </section>
+
+                <div class="objectives-grid">
+                    <div class="objective-card">
+                        <span>우리 팀 오브젝트</span>
+                        <strong>Dragon ${data.myObjectives.dragon} · Baron ${data.myObjectives.baron}</strong>
+                        <small>Tower ${data.myObjectives.tower} · Inhibitor ${data.myObjectives.inhibitor}</small>
+                    </div>
+                    <div class="objective-card">
+                        <span>상대 팀 오브젝트</span>
+                        <strong>Dragon ${data.enemyObjectives.dragon} · Baron ${data.enemyObjectives.baron}</strong>
+                        <small>Tower ${data.enemyObjectives.tower} · Inhibitor ${data.enemyObjectives.inhibitor}</small>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function loadTeamAnalysis() {
+            const select = document.getElementById('teamMatchSelect');
+            const root = document.getElementById('teamAnalysisContent');
+            const matchId = select.value;
+
+            if (!matchId || !currentPlayerData?.puuid) {
+                root.innerHTML = '<div class="empty-state">분석할 최근 경기를 선택해 주세요.</div>';
+                document.getElementById('teamMatchMeta').innerText = '경기를 선택하면 팀 분석을 시작합니다.';
+                return;
+            }
+
+            root.innerHTML = '<div class="team-loading">팀 10명 데이터를 불러오는 중...</div>';
 
             try {
-
-                const response =
-                    await fetch('./붙여넣은 텍스트 (1).txt');
-
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-
-                playerData = await response.json();
-
-                // 모든 유저의 전적 자동 생성
-                buildPlayerStats(playerData.matches);
-
-                console.log(
-                    '플레이어 데이터 로드 완료:',
-                    playerStats
-                );
-
-                return playerData;
-
+                const response = await fetch(`/api/team?matchId=${encodeURIComponent(matchId)}&puuid=${encodeURIComponent(currentPlayerData.puuid)}`);
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.message || '팀 분석 데이터를 가져오지 못했습니다.');
+                renderTeamAnalysis(data);
             } catch (error) {
                 console.error(error);
-                alert(error.message || '오류가 발생했습니다.');
-                dashboard.classList.add('hidden');
-            } finally {
-                if (button) {
-                    button.disabled = false;
-                    button.textContent = '성향 분석';
-                }
+                root.innerHTML = `<div class="empty-state">${escapeHtml(error.message || '팀 분석 중 오류가 발생했습니다.')}</div>`;
             }
         }
-
-
-        /*
-         * matches 전체를 순회하면서
-         *
-         * 유저명 → KDA 통계
-         *
-         * 형태의 데이터를 만듭니다.
-         */
-        function buildPlayerStats(matches) {
-
-            playerStats.clear();
-
-            for (const match of matches || []) {
-
-                for (const player of match.participants || []) {
-
-                    const name =
-                        (player.summonerName || '').trim();
-
-                    if (!name) continue;
-
-                    const key = name.toLowerCase();
-
-                    // 처음 등장한 유저
-                    if (!playerStats.has(key)) {
-
-                        playerStats.set(key, {
-                            name: name,
-                            kills: 0,
-                            deaths: 0,
-                            assists: 0,
-                            games: 0,
-                            wins: 0,
-                            losses: 0
-                        });
-                    }
-
-                    const stats = playerStats.get(key);
-
-                    stats.kills += Number(player.kills) || 0;
-                    stats.deaths += Number(player.deaths) || 0;
-                    stats.assists += Number(player.assists) || 0;
-
-                    stats.games++;
-
-                    if (player.win === true) {
-                        stats.wins++;
-                    } else {
-                        stats.losses++;
-                    }
-                }
-            }
-        }
-
-
-        /*
-         * 유저명을 검색합니다.
-         *
-         * 예:
-         * Niviel
-         * Niviel#White
-         * kanavi
-         *
-         * 모두 이름 부분을 기준으로 검색합니다.
-         */
-        function findPlayer(searchText) {
-
-            // #태그가 있으면 제거
-            const nameOnly =
-                searchText
-                    .split('#')[0]
-                    .trim()
-                    .toLowerCase();
-
-            if (!nameOnly) {
-                return null;
-            }
-
-            // 완전 일치 검색
-            if (playerStats.has(nameOnly)) {
-                return playerStats.get(nameOnly);
-            }
-
-            return null;
-        }
-
 
         async function searchPersona() {
             const input = document.getElementById('summonerInput').value.trim();
             const dashboard = document.getElementById('resultDashboard');
-            const userName = document.getElementById('userName');
-            const button = document.querySelector('.search-button');  // 클래스명 주의
+            const button = document.querySelector('.search-button');
 
             if (!input) {
                 alert('Riot ID를 입력해 주세요. 예: Hide on bush#KR1');
@@ -403,65 +531,18 @@
             }
 
             try {
-                const response = await fetch(
-                    `/api/player?riotId=${encodeURIComponent(input)}`
-                );
-
+                const response = await fetch(`/api/player?riotId=${encodeURIComponent(input)}`);
                 const data = await response.json();
 
-                if (!response.ok) {
-                    throw new Error(
-                        data.message || '플레이어 정보를 가져오지 못했습니다.'
-                    );
-                }
+                if (!response.ok) throw new Error(data.message || '플레이어 정보를 가져오지 못했습니다.');
 
-                // 이름 표시
-                userName.innerText = data.riotId;
-
-                // 프로필 아이콘
-                const userIcon = document.getElementById('userIcon');
-                userIcon.src = `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/profile-icons/${data.profileIconId}.jpg`;
-                userIcon.alt = `${data.gameName} 프로필 아이콘`;
-
-                // 레벨 표시
-                const kdaValue = document.getElementById('kdaValue');
-                if (kdaValue) {
-                    kdaValue.innerText = `Lv. ${data.summonerLevel}`;
-                }
-
-                // 랭크 정보 (영역이 있을 경우)
-                // 랭크 정보 표시
-                const solo = data.ranks.find(
-                    rank => rank.queueType === 'RANKED_SOLO_5x5'
-                );
-
-                const userRank = document.getElementById('userRank');
-                const tierIcon = document.getElementById('tierIcon');
-
-                if (solo) {
-                    // 텍스트 표시 (예: GOLD II · 45 LP)
-                    userRank.innerText = `${solo.tier} ${solo.rank} · ${solo.leaguePoints} LP`;
-
-                    // 티어 아이콘 표시
-                    if (tierIcon) {
-                        const tier = solo.tier.toLowerCase(); // gold, platinum, emerald 등
-                        tierIcon.src = `https://opgg-static.akamaized.net/images/medals_new/${tier}.png`;
-                        tierIcon.style.display = 'inline-block';
-                        tierIcon.alt = `${solo.tier} 아이콘`;
-                    }
-                } else {
-                    userRank.innerText = '언랭크 / 솔로랭크 정보 없음';
-                    if (tierIcon) {
-                        tierIcon.style.display = 'none';
-                    }
-                }
-
-                // 결과 화면 보여주기
+                currentPlayerData = data;
+                renderOverview(data);
+                renderMatchHistory(data.matches || []);
+                populateTeamMatchSelect(data.matches || []);
+                document.getElementById('teamAnalysisContent').innerHTML = '<div class="empty-state">팀 분석 탭에서 최근 경기를 선택해 주세요.</div>';
+                showTab(0);
                 dashboard.classList.remove('hidden');
-
-                console.log('Riot API 플레이어 정보:', data);
-                console.log('profileIconId:', data.profileIconId);
-
             } catch (error) {
                 console.error(error);
                 alert(error.message || '오류가 발생했습니다.');
@@ -474,50 +555,25 @@
             }
         }
 
-        // ========================================
-        // 검색창을 상단 Who Is... 옆으로 이동
-        // ========================================
-
         const header = document.querySelector('.top');
         const searchBox = document.querySelector('.search-box');
-
         header.appendChild(searchBox);
-
         header.classList.add('search-complete');
         searchBox.classList.add('compact');
 
-
-        // 3개 탭 전환
         function showTab(index) {
-
-            document.querySelectorAll('.result-tab')
-                .forEach((tab, i) => {
-                    tab.classList.toggle('active', i === index);
-                });
-
-            document.querySelectorAll('.tab-content')
-                .forEach((content, i) => {
-                    content.classList.toggle('active', i === index);
-                });
+            document.querySelectorAll('.result-tab').forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+            });
+            document.querySelectorAll('.tab-content').forEach((content, i) => {
+                content.classList.toggle('active', i === index);
+            });
         }
 
-
-        // Enter 키로 검색
-        document
-            .getElementById('summonerInput')
-            .addEventListener(
-                'keydown',
-                function (event) {
-
-                    if (event.key === 'Enter') {
-                        searchPersona();
-                    }
-
-                }
-            );
-
+        document.getElementById('summonerInput').addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') searchPersona();
+        });
     </script>
-
 </body>
 
 </html>
